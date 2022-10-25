@@ -98,7 +98,7 @@ class JiraTicketsController extends Controller
         $key = array_search($request->segment(4), array_column($data->ticketList[0]['ticket_logs'], 'id'));
         $data->editLog = $data->ticketList[0]['ticket_logs'][$key];
         }
-    
+
         return view('home',['page'=>'jira-tickets.show','data'=> $data]);
     }
 
@@ -114,6 +114,14 @@ class JiraTicketsController extends Controller
             parse_str($request->data,$unserializeData);
             $this->ticketService->saveTicketLog($unserializeData,  $ticketId, $id);
         }
+
+
+        public function addNewTicket(Request $request, $id=null){
+            $this->ticketinfo($request, $id);
+            $this->ticketAdditionalInfo($request, $id);
+        }
+
+
 
         public function ticketinfo(Request $request, $id)
         {

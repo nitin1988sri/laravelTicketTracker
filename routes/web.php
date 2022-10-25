@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/upload', [JiraTicketsController::class, 'upload']);
     Route::post('/file-store', [JiraTicketsController::class, 'store'])->name('file.upload');
     Route::get('show/{id?}', [JiraTicketsController::class, 'show']);
+    Route::post('add-new-ticket', [JiraTicketsController::class, 'addNewTicket'])->name('addNewTicket');
+
     Route::get('show/{id}/edit-log/{logid}', [JiraTicketsController::class, 'show'])->name('editLog');
     Route::post('{ticketid}updateLog/{id}', [JiraTicketsController::class, 'updateLog'])->name('updateLog');
     Route::post('ticket-info/{ticketid}', [JiraTicketsController::class, 'ticketinfo'])->name('ticketinfo');
