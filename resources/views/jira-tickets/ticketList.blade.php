@@ -8,8 +8,131 @@
        </div>
        <button class="btn btn-primary"  data-toggle="modal" data-target="#uploadFile">Upload ticket</button>
        <a class="btn btn-primary" href="{{url('clear-tables')}}">Clear data</a>
-       <a class="btn btn-primary" href="{{url('/show')}}">Add new ticket details</a>
+       <a class="btn btn-primary" style="display: none" href="{{url('/show')}}">Add new ticket details</a>
+       <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"> Add new ticket  </button>
 
+  <!-- Modal -->
+        <div class="modal fade  bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new ticket details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addNewTicketFrm">
+                     @csrf
+                    <table class="table">
+                    <tr>
+                        <td>
+                            Ticket id:
+                        </td>
+                        <td>
+                         <input class="form-control form-control-sm" type="text" name="ticket_id" id="ticket_id">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            User:
+                        </td>
+                        <td>
+                         <select class="form-control" id="user_id" name="user_id">
+                             <option value="0">Select</option>
+                             @foreach ($data->users as $key => $user)
+                                 <option value="{{ $key }}">
+                                     {{ $user }}</option>
+                             @endforeach
+                         </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ticket type:
+                        </td>
+                        <td>
+                          <select class="form-control" id="ticketType" name="ticketType">
+                             <option value="0">Select</option>
+                             @foreach ($data->ticketType as $key => $type)
+                                 <option value="{{ $key }}" >
+                                     {{ $type }}</option>
+                             @endforeach
+                         </select>
+                        </td>
+                      </tr>
+                    <tr>
+                        <td>
+                            Ticket Complexity:
+                        </td>
+                        <td>
+                         <select class="form-control" id="ticketComplexity" name="ticketComplexity">
+                             <option value="0">Select</option>
+                             @foreach ($data->ticketComplexity as $key => $ticketComplexity)
+                                 <option value="{{ $key }}">
+                                     {{ $ticketComplexity }}</option>
+                             @endforeach
+                         </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Planned start date:
+                        </td>
+                        <td>
+                         <input class="form-control form-control-sm" type="date" id="planned_start_date" name="planned_start_date">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Planned end date:
+                        </td>
+                        <td>
+                         <input class="form-control form-control-sm" type="date" id="planned_end_date" name="planned_end_date" >
+                       </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Planned efforts
+                        </td>
+                         <td>
+                             <input class="form-control form-control-sm" type="text"  id="planned_efforts" name="planned_efforts" >
+                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Actual start date
+                        </td>
+                         <td>
+                           <input class="form-control form-control-sm" type="date" id="actual_start_date" name="actual_start_date" >
+                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Actual end date
+                        </td>
+                         <td>
+                             <input class="form-control form-control-sm" type="date" id="actual_end_date" name="actual_end_date">
+                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Actual efforts
+                        </td>
+                         <td>
+                             <input class="form-control form-control-sm" type="text"  id="actual_efforts" name="actual_efforts" >
+                         </td>
+                     </tr>
+                </table>
+            </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" url='{{ route('addNewTicket')}}' id="addNewTicketBtn" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </div>
+        </div>
 
        <div class="row">
         @if(Session::has('message'))
@@ -37,50 +160,71 @@
                             </tr>
                          </thead>
                          <tbody>
-
                             @foreach ($data->ticketList as $key=>$dataRow)
+                            <form id="{{$dataRow->id}}">
                             <tr>
                                <td>
-                                  {{$dataRow->ticket_id}}
+                                <input class="form-control form-control-sm" type="text" placeholder="Default input" value=" {{$dataRow->ticket_id}}">
                                </td>
                                <td>
-                               {{ @$data->users[$dataRow->user_id] }}
+
+                                <select class="form-control" id="user_id" name="user_id">
+                                    <option value="0">Select</option>
+                                    @foreach ($data->users as $key => $user)
+                                        @php $select =$dataRow->user_id == $key? 'selected':'' @endphp
+                                        <option value="{{ $key }}" {{ $select }}>
+                                            {{ $user }}</option>
+                                    @endforeach
+                                </select>
                                </td>
                                <td>
-                                {{ @$data->ticketType[$dataRow->ticketAdditionInfo->ticketType] }}
+                                 <select class="form-control" id="ticketType" name="ticketType">
+                                    <option value="0">Select</option>
+                                    @foreach ($data->ticketType as $key => $type)
+                                        @php $typeSelected = $key ==  $dataRow->ticketAdditionInfo->ticket_type? 'selected':'' @endphp
+                                        <option value="{{ $key }}" {{ $typeSelected }}>
+                                            {{ $type }}</option>
+                                    @endforeach
+                                </select>
                                </td>
                                <td>
-                                {{ @$data->ticketComplexity[$dataRow->ticketAdditionInfo->complexity] }}
+                                <select class="form-control" id="ticketComplexity" name="ticketComplexity">
+                                    <option value="0">Select</option>
+                                    @foreach ($data->ticketComplexity as $key => $ticketComplexity)
+                                        @php $typeSelected = $key ==  $dataRow->ticketAdditionInfo->complexity? 'selected':'' @endphp
+                                        <option value="{{ $key }}" {{ $typeSelected }}>
+                                            {{ $ticketComplexity }}</option>
+                                    @endforeach
+                                </select>
                                </td>
                                <td>
-                                @php $planned_start_date = @$dataRow->ticketAdditionInfo->planned_start_date=='1970-01-01'?'-':@$dataRow->ticketAdditionInfo->planned_start_date;
+                                @php $planned_start_date = $dataRow->ticketAdditionInfo->planned_start_date=='1970-01-01'?'-':$dataRow->ticketAdditionInfo->planned_start_date;
                                 @endphp
-                               {{ @$planned_start_date }}
+                                <input class="form-control form-control-sm" type="date" id="planned_start_date" name="planned_start_date" value="{{$planned_start_date}}">
                                </td>
                                <td>
                                 @php $planned_end_date = @$dataRow->ticketAdditionInfo->planned_end_date=='1970-01-01'?'-':@$dataRow->ticketAdditionInfo->planned_end_date;
                                  @endphp
-                                {{ @$planned_end_date }}
-                                </td>
+                                <input class="form-control form-control-sm" type="date" id="planned_end_date" name="planned_end_date" value="{{$planned_end_date}}">
+                              </td>
                                 <td>
-                                    {{ @$dataRow->ticketAdditionInfo->planned_efforts }}
+                                    <input class="form-control form-control-sm" type="text"  id="planned_efforts" name="planned_efforts" value=" {{$dataRow->ticketAdditionInfo->planned_efforts}}">
                                 </td>
                                 <td>
                                     @php $actual_start_date = @$dataRow->ticketAdditionInfo->actual_start_date=='1970-01-01'?'-':@$dataRow->ticketAdditionInfo->actual_start_date;
                                  @endphp
-                                    {{ $actual_start_date }}
+                                  <input class="form-control form-control-sm" type="date" id="actual_start_date" name="actual_start_date" value="{{$actual_start_date}}">
                                 </td>
                                 <td>
                                     @php $actual_end_date = @$dataRow->ticketAdditionInfo->actual_end_date=='1970-01-01'?'-':@$dataRow->ticketAdditionInfo->actual_end_date;
                                     @endphp
-                                    {{ $actual_end_date }}
+                                    <input class="form-control form-control-sm" type="date" id="actual_end_date" name="actual_end_date" value="{{$actual_end_date}}">
                                 </td>
                                 <td>
-
-                                    {{ @$dataRow->ticketAdditionInfo->actual_efforts }}
+                                    <input class="form-control form-control-sm" type="text"  id="actual_efforts" name="actual_efforts" value=" {{$dataRow->ticketAdditionInfo->actual_efforts}}">
                                 </td>
                                 <td>
-                                    <a   data-toggle="modal" data-target="#{{$dataRow->ticket_id}}">
+                                    <a data-toggle="modal" data-target="#{{$dataRow->ticket_id}}">
                                         Ticket log
                                    </a>
                                    @php
@@ -134,6 +278,7 @@
                                     <a target="_blank" href='{{ url('show', $dataRow->id) }}'>Edit</a>
                                 </td>
                             </tr>
+                            <form>
                             @endforeach
                          </tbody>
                       </table>

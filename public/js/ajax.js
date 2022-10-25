@@ -120,3 +120,21 @@ $('#ticketAdditionalInfoSave').on('click', function (e) {
         },
     });
 });
+
+$('#addNewTicketBtn').on('click', function (e) {
+    let url = $('#addNewTicketBtn').attr('url');
+    let _token = $('[name="_token"]').val();
+    $.ajax({
+        url: url,
+        type: "post",
+        data: {
+            '_token': _token,
+             'data': $('#addNewTicketFrm').serialize()
+        },
+        success: function (response) {
+            if(response == '1'){
+                window.location.reload();
+            }
+        },
+    });
+});
