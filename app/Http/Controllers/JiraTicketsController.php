@@ -117,7 +117,7 @@ class JiraTicketsController extends Controller
 
 
         public function addNewTicket(Request $request, $id=null){
-            $this->ticketinfo($request, $id);
+           $id = $this->ticketinfo($request, $id);
             $this->ticketAdditionalInfo($request, $id);
         }
 
@@ -128,8 +128,7 @@ class JiraTicketsController extends Controller
             $unserializeData = [];
             parse_str($request->data,$unserializeData);
             try{
-                $this->ticketService->ticketinfo($unserializeData,$id);
-                echo true;
+                return $this->ticketService->ticketinfo($unserializeData,$id);
             }catch(Exception $e){
                echo false;
             }
