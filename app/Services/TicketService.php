@@ -166,19 +166,15 @@ class TicketService
         }
         $ticketinfo->ticket_id =   $request['ticket_id'];
         $ticketinfo->user_id = $request['user_id'];
-        if($ticketinfo->save()){
-            return $ticketinfo->id;
-        } else{
-            return false;
-        }
+        if(!$ticketinfo->save()); return false;
+
     }
 
 
     public function ticketAdditionalInfo($request, $id){
-
         if($id){
             $ticketAdditionalInfo =  JiraTicketAdditionalInfomations::find($id);
-        }if(is_null($ticketAdditionalInfo) || empty($id)){
+        }else{
             $ticketAdditionalInfo =  new JiraTicketAdditionalInfomations();
         }
         $ticketAdditionalInfo->planned_start_date =   $request['planned_start_date']!='1970-01-01' && $request['planned_start_date']!=''?$request['planned_start_date']:null;
@@ -187,11 +183,6 @@ class TicketService
         $ticketAdditionalInfo->actual_start_date = $request['actual_start_date']!='1970-01-01' && $request['actual_start_date']!='' ?$request['actual_start_date']:null;
         $ticketAdditionalInfo->actual_end_date =   $request['actual_end_date']!='1970-01-01' && $request['actual_end_date']!='' ?$request['actual_end_date']:null;
         $ticketAdditionalInfo->actual_efforts = $request['actual_efforts'];
-        $ticketAdditionalInfo->jira_tickets_id = $id;
-        $ticketAdditionalInfo->ticket_type = $request['ticketType'];
-        $ticketAdditionalInfo->complexity = $request['ticketComplexity'];
-
-
         if(!$ticketAdditionalInfo->save()); return false;
 
     }

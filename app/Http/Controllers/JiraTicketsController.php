@@ -7,9 +7,6 @@ use  App\Services\TicketService;
 use Shuchkin\SimpleXLSX;
 use Illuminate\Support\Facades\Session;
 use Exception;
-use Illuminate\Support\Facades\Redis;
-
-use Illuminate\Filesystem\Cache;
 use SebastianBergmann\Environment\Console;
 
 use function PHPUnit\Framework\isEmpty;
@@ -32,8 +29,6 @@ class JiraTicketsController extends Controller
 
     public function upload(Request $request)
     {
-          //dd(Redis::set('key', "test"));
-         // dd(Redis::get('key'));
           $data = $this->ticketService->ticketList();
           return view('home',['page'=>'jira-tickets.ticketList','data'=> $data]);
     }
@@ -117,17 +112,12 @@ class JiraTicketsController extends Controller
         public function updateLog(Request $request, $ticketId, $id=null){
             $unserializeData = [];
             parse_str($request->data,$unserializeData);
-            try{
-                $this->ticketService->saveTicketLog($unserializeData,  $ticketId, $id);
-                echo true;
-            }catch(Exception $e){
-                   echo false;
-            }
+            $this->ticketService->saveTicketLog($unserializeData,  $ticketId, $id);
         }
 
 
         public function addNewTicket(Request $request, $id=null){
-           $id = $this->ticketinfo($request, $id);
+            $this->ticketinfo($request, $id);
             $this->ticketAdditionalInfo($request, $id);
         }
 
@@ -138,7 +128,8 @@ class JiraTicketsController extends Controller
             $unserializeData = [];
             parse_str($request->data,$unserializeData);
             try{
-                return $this->ticketService->ticketinfo($unserializeData,$id);
+                $this->ticketService->ticketinfo($unserializeData,$id);
+                echo true;
             }catch(Exception $e){
                echo false;
             }
@@ -153,7 +144,7 @@ class JiraTicketsController extends Controller
                 $this->ticketService->ticketAdditionalInfo($unserializeData,$id);
                 echo true;
             }catch(Exception $e){
-                   echo false;
+               echo false;
             }
         }
 
