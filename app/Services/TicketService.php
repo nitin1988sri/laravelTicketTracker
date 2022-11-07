@@ -183,11 +183,14 @@ class TicketService
         $ticketAdditionalInfo->actual_start_date = $request['actual_start_date']!='1970-01-01' && $request['actual_start_date']!='' ?$request['actual_start_date']:null;
         $ticketAdditionalInfo->actual_end_date =   $request['actual_end_date']!='1970-01-01' && $request['actual_end_date']!='' ?$request['actual_end_date']:null;
         $ticketAdditionalInfo->actual_efforts = $request['actual_efforts'];
+        $ticketAdditionalInfo->jira_tickets_id = $id;
+        $ticketAdditionalInfo->ticket_type = $request['ticketType'];
+        $ticketAdditionalInfo->complexity = $request['ticketComplexity'];
         if(!$ticketAdditionalInfo->save()); return false;
 
     }
 
-    public function saveTicketLog($logDataTosave,  $ticketId, $id){
+    public function saveTicketLog($logDataTosave, $ticketId, $id){
                if($id){
                $logData =  JiraTicketUserLogs::find($id);
                }else{

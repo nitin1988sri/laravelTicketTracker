@@ -12,7 +12,7 @@
                          <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
                              <li class="breadcrumb-item"><a href="index.html"><i class="icofont icofont-home"></i></a>
                              </li>
-                             <li class="breadcrumb-item"><a href="{{url('/upload')}}">Ticket list</a>
+                             <li class="breadcrumb-item"><a href="{{ url('/upload') }}">Ticket list</a>
                              </li>
 
                          </ol>
@@ -161,7 +161,7 @@
 
                          <div class="card-block">
                              <form id="ticketInfo">
-                                @csrf
+                                 @csrf
                                  <div class="form-group">
                                      <label for="exampleInputEmail1" class="form-control-label">Ticket Id</label>
                                      <input type="text" class="form-control" id="ticket_id" name="ticket_id"
@@ -172,12 +172,15 @@
                                      <select class="form-control" id="user_id" name="user_id">
                                          @foreach (@$data->users as $key => $user)
                                              @php $select = @$data->ticketList[0]['user_id'] == $key? 'selected':'' @endphp
-                                             <option value="{{ $key }}" {{ $select }}>{{ $user }}</option>
+                                             <option value="{{ $key }}" {{ $select }}>
+                                                 {{ $user }}</option>
                                          @endforeach
                                      </select>
                                  </div>
-                                 <button type="button" url='{{ route('ticketinfo', !empty(@$data->ticketList[0]['id'])?$data->ticketList[0]['id']:-1)}}' id="ticketInfoButton" class="btn btn-primary">Submit</button>
-                                 </form>
+                                 <button type="button"
+                                     url='{{ route('ticketinfo', !empty(@$data->ticketList[0]['id']) ? $data->ticketList[0]['id'] : NULL) }}'
+                                     id="ticketInfoButton" class="btn btn-primary">Submit</button>
+                             </form>
                          </div>
                      </div>
                  </div>
@@ -356,13 +359,15 @@
                          <!-- end of modal -->
                          <div class="card-block">
                              <form id="ticketAdditionalInfo">
-                                @csrf
+                                 @csrf
                                  <div class="form-group row">
                                      <label for="example-text-input"
                                          class="col-xs-2 col-form-label form-control-label">Planed Start Date</label>
                                      <div class="col-sm-10">
                                          <div class="col-sm-10">
-                                             <input class="form-control" type="date" name="planned_start_date" value="{{ @$data->ticketList[0]['ticket_addition_info']['planned_start_date'] }}" id="planned_start_date">
+                                             <input class="form-control" type="date" name="planned_start_date"
+                                                 value="{{ @$data->ticketList[0]['ticket_addition_info']['planned_start_date'] }}"
+                                                 id="planned_start_date">
                                          </div>
                                      </div>
                                  </div>
@@ -371,7 +376,9 @@
                                          class="col-xs-2 col-form-label form-control-label">Planed Start Date</label>
                                      <div class="col-sm-10">
                                          <div class="col-sm-10">
-                                             <input class="form-control" type="date" name="planned_end_date" value="{{ @$data->ticketList[0]['ticket_addition_info']['planned_end_date'] }}" id="planned_end_date">
+                                             <input class="form-control" type="date" name="planned_end_date"
+                                                 value="{{ @$data->ticketList[0]['ticket_addition_info']['planned_end_date'] }}"
+                                                 id="planned_end_date">
                                          </div>
                                      </div>
                                  </div>
@@ -379,7 +386,9 @@
                                      <label for="example-email-input"
                                          class="col-xs-2 col-form-label form-control-label">Planed Hour</label>
                                      <div class="col-sm-10">
-                                         <input class="form-control" type="text" name="planned_efforts" value="{{ @$data->ticketList[0]['ticket_addition_info']['planned_efforts'] }}" id="planned_efforts">
+                                         <input class="form-control" type="text" name="planned_efforts"
+                                             value="{{ @$data->ticketList[0]['ticket_addition_info']['planned_efforts'] }}"
+                                             id="planned_efforts">
                                      </div>
                                  </div>
                                  <div class="form-group row">
@@ -387,7 +396,9 @@
                                          class="col-xs-2 col-form-label form-control-label">Accual Start Date</label>
                                      <div class="col-sm-10">
                                          <div class="col-sm-10">
-                                             <input class="form-control" type="date" name="actual_start_date" value="{{ @$data->ticketList[0]['ticket_addition_info']['actual_start_date'] }}" id="actual_start_date">
+                                             <input class="form-control" type="date" name="actual_start_date"
+                                                 value="{{ @$data->ticketList[0]['ticket_addition_info']['actual_start_date'] }}"
+                                                 id="actual_start_date">
                                          </div>
                                      </div>
                                  </div>
@@ -396,7 +407,9 @@
                                          class="col-xs-2 col-form-label form-control-label">Accual End Date</label>
                                      <div class="col-sm-10">
                                          <div class="col-sm-10">
-                                             <input class="form-control" type="date" name="actual_end_date" value="{{ @$data->ticketList[0]['ticket_addition_info']['actual_end_date'] }}" id="actual_end_date">
+                                             <input class="form-control" type="date" name="actual_end_date"
+                                                 value="{{ @$data->ticketList[0]['ticket_addition_info']['actual_end_date'] }}"
+                                                 id="actual_end_date">
                                          </div>
                                      </div>
                                  </div>
@@ -404,11 +417,48 @@
                                      <label for="example-email-input"
                                          class="col-xs-2 col-form-label form-control-label">Accual Hour</label>
                                      <div class="col-sm-10">
-                                         <input class="form-control" type="text" name="actual_efforts" value="{{ @$data->ticketList[0]['ticket_addition_info']['actual_efforts'] }}" id="actual_efforts">
+                                         <input class="form-control" type="text" name="actual_efforts"
+                                             value="{{ @$data->ticketList[0]['ticket_addition_info']['actual_efforts'] }}"
+                                             id="actual_efforts">
                                      </div>
                                  </div>
-                                 <button type="button" url='{{ route('ticketAdditionalInfo',  !empty(@$data->ticketList[0]['id'])?$data->ticketList[0]['id']:-1)}}' id="ticketAdditionalInfoSave" class="btn btn-primary">Submit</button>
-                            </div>
+
+                                 <div class="form-group row">
+                                     <label for="example-email-input"
+                                         class="col-xs-2 col-form-label form-control-label">Ticket Type</label>
+                                     <div class="col-sm-10">
+                                         <select class="form-control" id="ticketType" name="ticketType">
+                                             <option value="0">Select</option>
+                                             @foreach ($data->ticketType as $key => $type)
+                                                 @php
+                                                     $seletecd = trim($data->ticketList[0]['ticket_addition_info']['ticket_type']) == trim($key) ? 'selected' : 'tt';
+                                                 @endphp
+                                                 <option value="{{ $key }}" {{ $seletecd }}>
+                                                     {{ $type }}</option>
+                                             @endforeach
+                                         </select>
+                                     </div>
+                                 </div>
+
+                                 <div class="form-group row">
+                                    <label for="example-email-input"
+                                        class="col-xs-2 col-form-label form-control-label">Ticket Complexity</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="ticketComplexity" name="ticketComplexity">
+                                            <option value="0">Select</option>
+                                            @foreach ($data->ticketComplexity as $key => $ticketComplexity)
+                                            @php
+                                            $seletecd = trim($data->ticketList[0]['ticket_addition_info']['complexity']) == trim($key) ? 'selected' : 'tt';
+                                            @endphp
+                                                <option value="{{ $key }}" {{ $seletecd }}> {{ $ticketComplexity }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                 <button type="button"
+                                     url='{{ route('ticketAdditionalInfo', !empty(@$data->ticketList[0]['id']) ? $data->ticketList[0]['id'] : NULL) }}'
+                                     id="ticketAdditionalInfoSave" class="btn btn-primary">Submit</button>
+                         </div>
                          </form>
                      </div>
                  </div>
@@ -511,13 +561,15 @@
                      </div>
                      <!-- end of modal -->
                      <form id="updateLog">
-                        @csrf
+                         @csrf
                          <div class="col-sm-12">
                              <div class="card-block">
                                  <div class="form-group row">
                                      <label for="InputSmall" class="col-md-2 form-control-label">Log Date</label>
                                      <div class="col-sm-4">
-                                         <input class="form-control" name="log_date" type="date" value="{{ @$data->editLog['log_date'] }}" id="example-datetime-local-input">
+                                         <input class="form-control" name="log_date" type="date"
+                                             value="{{ @$data->editLog['log_date'] }}"
+                                             id="example-datetime-local-input">
                                      </div>
                                  </div>
                                  <div class="card-block">
@@ -562,14 +614,16 @@
                                      <div class="col-md-2"><label for="InputNormal" class="form-control-label">Start
                                              Time</label></div>
                                      <div class="col-md-4">
-                                         <input class="form-control" type="time" name="time_start" value="{{ @$data->editLog['time_start'] }}" id="example-time-input">
+                                         <input class="form-control" type="time" name="time_start"
+                                             value="{{ @$data->editLog['time_start'] }}" id="example-time-input">
                                      </div>
                                  </div>
                                  <div class="form-group row">
                                      <div class="col-md-2"><label for="InputLarge"
                                              class="form-control-label col-form-label-lg">End Time</label></div>
                                      <div class="col-md-4">
-                                         <input class="form-control" type="time"  name="time_end" value="{{ @$data->editLog['time_end'] }}" id="example-time-input">
+                                         <input class="form-control" type="time" name="time_end"
+                                             value="{{ @$data->editLog['time_end'] }}" id="example-time-input">
                                      </div>
                                  </div>
                                  <div class="form-group row">
@@ -577,10 +631,11 @@
                                              class="form-control-label col-form-label-lg">Time Taken</label></div>
                                      <div class="col-md-4">
                                          <input class="form-control" type="time"
-                                             value="{{ @$data->editLog['time_taken'] }}"  name="time_taken"  id="example-time-input">
+                                             value="{{ @$data->editLog['time_taken'] }}" name="time_taken"
+                                             id="example-time-input">
                                      </div>
                                  </div>
-                                  <script>
+                                 <script>
                                      tinymce.init({
                                          selector: 'textarea#comment',
                                      });
@@ -594,10 +649,13 @@
                                  </div>
                              </div>
 
-                             <button type="button" url='{{ route('updateLog',  ['ticketid'=>!empty(@$data->ticketList[0]['id'])?$data->ticketList[0]['id']:-1,'id'=>!empty(@$data->editLog['id'])?$data->editLog['id']:-1 ])
-                                                        }}' id="updateLogButton" class="btn btn-primary">Submit</button>
+                             <button type="button"
+                                 url='{{ route('updateLog', ['ticketid' => !empty(@$data->ticketList[0]['id']) ? $data->ticketList[0]['id'] : NULL, 'id' => !empty(@$data->editLog['id']) ? $data->editLog['id'] : NULL]) }}'
+                                 id="updateLogButton" class="btn btn-primary">Submit</button>
 
-                           <a href="{{ url('show', !empty(@$data->ticketList[0]['id'])?$data->ticketList[0]['id']:-1) }}"> <button type="button" class="btn btn-default">Cancel</button></a>
+                             <a
+                                 href="{{ url('show', !empty(@$data->ticketList[0]['id']) ? $data->ticketList[0]['id'] : NULL) }}">
+                                 <button type="button" class="btn btn-default">Cancel</button></a>
                      </form>
                      <div class="form-group row">
                          <div class="card-header">
@@ -632,7 +690,8 @@
                                                  <td>{{ $logData[$i]['time_taken'] }}</td>
                                                  <td>{{ $logData[$i]['comment'] }}</td>
                                                  <td>
-                                                     <a href={{ route('editLog', ['id' => $data->ticketList[0]['id'], 'logid' => $logData[$i]['id']]) }}>
+                                                     <a
+                                                         href={{ route('editLog', ['id' => $data->ticketList[0]['id'], 'logid' => $logData[$i]['id']]) }}>
                                                          <button type="button" class="btn btn-primary">Edit</button>
                                                      </a>
                                                      <a href="#">
