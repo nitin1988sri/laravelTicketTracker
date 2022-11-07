@@ -190,13 +190,11 @@ class TicketService
         $ticketAdditionalInfo->jira_tickets_id = $id;
         $ticketAdditionalInfo->ticket_type = $request['ticketType'];
         $ticketAdditionalInfo->complexity = $request['ticketComplexity'];
-
-
         if(!$ticketAdditionalInfo->save()); return false;
 
     }
 
-    public function saveTicketLog($logDataTosave,  $ticketId, $id){
+    public function saveTicketLog($logDataTosave, $ticketId, $id){
                if($id){
                $logData =  JiraTicketUserLogs::find($id);
                }else{

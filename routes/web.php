@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add-new-ticket', [JiraTicketsController::class, 'addNewTicket'])->name('addNewTicket');
 
     Route::get('show/{id}/edit-log/{logid}', [JiraTicketsController::class, 'show'])->name('editLog');
-    Route::post('{ticketid}updateLog/{id}', [JiraTicketsController::class, 'updateLog'])->name('updateLog');
+    Route::post('{ticketid}/updateLog/{id?}', [JiraTicketsController::class, 'updateLog'])->name('updateLog');
     Route::post('ticket-info/{ticketid}', [JiraTicketsController::class, 'ticketinfo'])->name('ticketinfo');
     Route::post('ticket-additional-info/{ticketid}', [JiraTicketsController::class, 'ticketAdditionalInfo'])->name('ticketAdditionalInfo');
 

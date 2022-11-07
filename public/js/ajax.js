@@ -80,7 +80,9 @@ $('#updateLogButton').on('click', function (e) {
              'data': $('#updateLog').serialize()
         },
         success: function (response) {
-            console.log(response);
+            if(response == '1'){
+                window.location.reload();
+            }
         },
     });
 });
